@@ -4,21 +4,26 @@ import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import Navbar from '@/components/common_components/navbar/Navbar';
 import { wigs } from '@/app/wigs';
+import Footer from '@/components/Footer';
+import { useRouter } from 'next/navigation';
 
 const GalleryPage = () => {
   const { login } = useAuth();
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [hoveredWig, setHoveredWig] = useState<string | null>(null);
 
   const handleTryNow = () => {
-    login();
+    router.push('/wig-styler');
   };
 
   const categories = [
-    { id: 'all', name: 'All Styles', icon: '✨' },
-    { id: 'short', name: 'Short Hair', icon: '✂️' },
-    { id: 'long', name: 'Long Hair', icon: '💇‍♀️' },
-    { id: 'curly', name: 'Curly Hair', icon: '🌀' },
-    { id: 'classic', name: 'Classic', icon: '👑' },
+    { id: 'all', name: 'All Styles', icon: '✨', color: 'from-purple-500 to-blue-500' },
+    { id: 'short', name: 'Short Hair', icon: '✂️', color: 'from-pink-500 to-purple-500' },
+    { id: 'long', name: 'Long Hair', icon: '💇‍♀️', color: 'from-blue-500 to-cyan-500' },
+    { id: 'curly', name: 'Curly Hair', icon: '🌀', color: 'from-orange-500 to-red-500' },
+    { id: 'classic', name: 'Classic', icon: '👑', color: 'from-yellow-500 to-orange-500' },
+    { id: 'trending', name: 'Trending', icon: '🔥', color: 'from-red-500 to-pink-500' },
   ];
 
   const filteredWigs = selectedCategory === 'all' 
@@ -28,10 +33,11 @@ const GalleryPage = () => {
         if (selectedCategory === 'long') return wig.name.toLowerCase().includes('long') || wig.name.toLowerCase().includes('waves');
         if (selectedCategory === 'curly') return wig.name.toLowerCase().includes('curly') || wig.name.toLowerCase().includes('afro');
         if (selectedCategory === 'classic') return wig.name.toLowerCase().includes('classic') || wig.name.toLowerCase().includes('pompadour');
+        if (selectedCategory === 'trending') return wig.name.toLowerCase().includes('modern') || wig.name.toLowerCase().includes('trendy');
         return true;
       });
 
-  // Simple wig gallery data
+  // Enhanced wig gallery data with more details
   const wigGalleryData = [
     {
       wig_id: 'short-pixie',
@@ -39,6 +45,10 @@ const GalleryPage = () => {
       wig_name: 'Short Pixie',
       wig_title: 'Modern & Edgy',
       style_type: 'Short Hair',
+      difficulty: 'Easy',
+      maintenance: 'Low',
+      best_for: 'Oval & Heart Faces',
+      occasion: 'Casual & Professional',
       panel_1_content: 'A bold and modern pixie cut that exudes confidence and style. Perfect for those who want a low-maintenance yet striking look.',
       stats: {
         'Style Type': 'Short Hair',
@@ -68,6 +78,10 @@ const GalleryPage = () => {
       wig_name: 'Curly Afro',
       wig_title: 'Natural & Bold',
       style_type: 'Curly Hair',
+      difficulty: 'Medium',
+      maintenance: 'Medium',
+      best_for: 'All Face Shapes',
+      occasion: 'Casual & Creative',
       panel_1_content: 'Embrace your natural curls with this stunning afro style. Full of volume and personality, perfect for making a statement.',
       stats: {
         'Style Type': 'Curly Hair',
@@ -97,6 +111,10 @@ const GalleryPage = () => {
       wig_name: 'Modern Mullet',
       wig_title: 'Trendy & Retro',
       style_type: 'Short Hair',
+      difficulty: 'Medium',
+      maintenance: 'Medium',
+      best_for: 'Square & Oval Faces',
+      occasion: 'Creative & Fashion',
       panel_1_content: 'A contemporary take on the classic mullet. Short in front, longer in back, creating a dynamic and edgy silhouette.',
       stats: {
         'Style Type': 'Short Hair',
@@ -126,6 +144,10 @@ const GalleryPage = () => {
       wig_name: 'Textured Quiff',
       wig_title: 'Classic & Sophisticated',
       style_type: 'Classic',
+      difficulty: 'High',
+      maintenance: 'High',
+      best_for: 'Oval & Heart Faces',
+      occasion: 'Professional & Formal',
       panel_1_content: 'A sophisticated quiff with added texture for a modern twist. Perfect for those who appreciate classic styling with contemporary flair.',
       stats: {
         'Style Type': 'Classic',
@@ -155,6 +177,10 @@ const GalleryPage = () => {
       wig_name: 'Pompadour',
       wig_title: 'Elegant & Timeless',
       style_type: 'Classic',
+      difficulty: 'High',
+      maintenance: 'High',
+      best_for: 'Oval & Heart Faces',
+      occasion: 'Formal & Special Events',
       panel_1_content: 'The iconic pompadour style that never goes out of fashion. High volume on top with shorter sides for a timeless, elegant look.',
       stats: {
         'Style Type': 'Classic',
@@ -184,6 +210,10 @@ const GalleryPage = () => {
       wig_name: 'Classic Pompadour',
       wig_title: 'Vintage & Refined',
       style_type: 'Classic',
+      difficulty: 'Very High',
+      maintenance: 'Very High',
+      best_for: 'Oval Faces',
+      occasion: 'Vintage Events & Photos',
       panel_1_content: 'The original pompadour style that defined an era. Perfect for those who appreciate vintage aesthetics and refined elegance.',
       stats: {
         'Style Type': 'Classic',
@@ -213,6 +243,10 @@ const GalleryPage = () => {
       wig_name: 'Side-Swept Pompadour',
       wig_title: 'Dynamic & Modern',
       style_type: 'Classic',
+      difficulty: 'High',
+      maintenance: 'High',
+      best_for: 'Oval & Heart Faces',
+      occasion: 'Modern Formal Events',
       panel_1_content: 'A modern interpretation of the classic pompadour with a dynamic side-swept element. Perfect for those who want classic appeal with contemporary movement.',
       stats: {
         'Style Type': 'Classic',
@@ -242,6 +276,10 @@ const GalleryPage = () => {
       wig_name: 'Short Side Part',
       wig_title: 'Professional & Clean',
       style_type: 'Short Hair',
+      difficulty: 'Low',
+      maintenance: 'Low',
+      best_for: 'All Face Shapes',
+      occasion: 'Professional & Business',
       panel_1_content: 'A clean and professional side part that works perfectly for business settings. Neat, tidy, and always appropriate.',
       stats: {
         'Style Type': 'Short Hair',
@@ -271,6 +309,10 @@ const GalleryPage = () => {
       wig_name: 'Curly Top',
       wig_title: 'Playful & Youthful',
       style_type: 'Curly Hair',
+      difficulty: 'Medium',
+      maintenance: 'Medium',
+      best_for: 'Oval & Round Faces',
+      occasion: 'Casual & Creative',
       panel_1_content: 'A playful and youthful style with curly texture on top. Perfect for those who want to add personality and fun to their look.',
       stats: {
         'Style Type': 'Curly Hair',
@@ -296,96 +338,165 @@ const GalleryPage = () => {
     }
   ];
 
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty.toLowerCase()) {
+      case 'easy': return 'text-green-500';
+      case 'medium': return 'text-yellow-500';
+      case 'high': return 'text-orange-500';
+      case 'very high': return 'text-red-500';
+      default: return 'text-gray-500';
+    }
+  };
+
+  const getMaintenanceColor = (maintenance: string) => {
+    switch (maintenance.toLowerCase()) {
+      case 'low': return 'text-green-500';
+      case 'medium': return 'text-yellow-500';
+      case 'high': return 'text-orange-500';
+      case 'very high': return 'text-red-500';
+      default: return 'text-gray-500';
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-blue-50">
+    <div className="min-h-screen bg-black">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-16 bg-gradient-to-r from-purple-600 via-purple-700 to-blue-600">
-        <div className="container mx-auto px-4 text-center">
+      <section className="pt-24 pb-16 bg-black relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-black"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gray-900/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gray-900/20 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Wig Style Gallery
+            Wig Style <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Gallery</span>
           </h1>
           <p className="text-xl text-purple-100 max-w-3xl mx-auto">
-            Explore our stunning collection of AI-powered wig styles
+            Explore our stunning collection of AI-powered wig styles and find your perfect look
           </p>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="py-8 bg-gradient-to-br from-white via-purple-50 to-blue-50 border-b border-purple-100">
+      <section className="py-8 bg-gray-900/50 border-b border-gray-700">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 ${
+                className={`group relative px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                   selectedCategory === category.id
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
-                    : 'bg-white text-gray-700 hover:bg-purple-50 border border-purple-200 shadow-sm'
+                    ? `bg-gradient-to-r ${category.color} text-white shadow-lg scale-105`
+                    : 'bg-white/10 text-purple-200 hover:bg-white/20 border border-purple-500/30 backdrop-blur-sm'
                 }`}
               >
-                <span className="mr-2">{category.icon}</span>
+                <span className="mr-2 group-hover:scale-110 transition-transform duration-200">{category.icon}</span>
                 {category.name}
+                {selectedCategory === category.id && (
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400/20 to-blue-400/20 animate-pulse"></div>
+                )}
               </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Simple Gallery Section */}
+      {/* Gallery Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Wig Style Collection
+              Discover Your Perfect Style
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Click on any wig card to see detailed information
+              Click on any wig card to see detailed information and try it on yourself
             </p>
           </div>
           
-          {/* Simple Grid Layout */}
+          {/* Enhanced Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {wigGalleryData.map((wig, index) => (
+            {wigGalleryData.map((wig) => (
               <div 
                 key={wig.wig_id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100"
+                onMouseEnter={() => setHoveredWig(wig.wig_id)}
+                onMouseLeave={() => setHoveredWig(null)}
+                className="group relative bg-white backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-200 hover:border-purple-400 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-gray-200"
               >
+                {/* Image Container */}
                 <div className="aspect-[3/4] relative overflow-hidden">
                   <img 
                     src={wig.avatar_url} 
                     alt={wig.wig_name}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    className={`w-full h-full object-cover transition-all duration-500 ${
+                      hoveredWig === wig.wig_id ? 'scale-110 rotate-2' : 'scale-100 rotate-0'
+                    }`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  
+                  {/* Floating Info */}
                   <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-semibold">{wig.wig_name}</h3>
+                    <h3 className="text-xl font-bold mb-1">{wig.wig_name}</h3>
                     <p className="text-sm opacity-90">{wig.wig_title}</p>
                   </div>
+
+                  {/* Hover Overlay */}
+                  <div className={`absolute inset-0 bg-gradient-to-t from-purple-600/90 to-transparent flex items-end justify-center transition-all duration-500 ${
+                    hoveredWig === wig.wig_id ? 'opacity-100' : 'opacity-0'
+                  }`}>
+                    <div className="text-center text-white p-6">
+                      <p className="text-sm mb-4">{wig.panel_1_content}</p>
+                      <button
+                        onClick={handleTryNow}
+                        className="bg-white text-purple-600 px-6 py-2 rounded-full font-semibold hover:bg-purple-100 transition-colors"
+                      >
+                        Try This Style
+                      </button>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Content */}
                 <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-medium text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-medium text-purple-600 bg-purple-100 px-3 py-1 rounded-full border border-purple-200">
                       {wig.style_type}
                     </span>
+                    <div className="flex space-x-2">
+                      <span className={`text-xs px-2 py-1 rounded-full bg-gray-100 ${getDifficultyColor(wig.difficulty)}`}>
+                        {wig.difficulty}
+                      </span>
+                      <span className={`text-xs px-2 py-1 rounded-full bg-gray-100 ${getMaintenanceColor(wig.maintenance)}`}>
+                        {wig.maintenance}
+                      </span>
+                    </div>
                   </div>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                    {wig.panel_1_content}
-                  </p>
-                  <div className="space-y-2">
+
+                  <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Difficulty:</span>
-                      <span className="font-medium">{wig.stats.Difficulty}</span>
+                      <span className="text-gray-600">Best For:</span>
+                      <span className="text-gray-900 font-medium">{wig.best_for}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Maintenance:</span>
-                      <span className="font-medium">{wig.stats.Maintenance}</span>
+                      <span className="text-gray-600">Occasion:</span>
+                      <span className="text-gray-900 font-medium">{wig.occasion}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Best For:</span>
-                      <span className="font-medium">{wig.stats['Best For']}</span>
+                  </div>
+
+                  {/* Quick Stats */}
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className="text-center p-2 bg-gray-50 rounded-lg">
+                        <div className="text-gray-600">Difficulty</div>
+                        <div className={`font-bold ${getDifficultyColor(wig.difficulty)}`}>{wig.difficulty}</div>
+                      </div>
+                      <div className="text-center p-2 bg-gray-50 rounded-lg">
+                        <div className="text-gray-600">Maintenance</div>
+                        <div className={`font-bold ${getMaintenanceColor(wig.maintenance)}`}>{wig.maintenance}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -395,41 +506,10 @@ const GalleryPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-600 via-purple-700 to-blue-600">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Try These Styles?
-          </h2>
-          <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-            Upload your photo and see how these amazing wig styles look on you with our AI technology
-          </p>
-          <button
-            onClick={handleTryNow}
-            className="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors shadow-lg"
-          >
-            Start Styling Now
-          </button>
-        </div>
-      </section>
+
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-gray-900 via-purple-900 to-blue-900 text-white py-12">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center mb-6">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center mr-3">
-              <span className="text-lg">💇‍♀️</span>
-            </div>
-            <h3 className="text-2xl font-bold">HeadZ</h3>
-          </div>
-          <p className="text-gray-300 mb-6">
-            AI-powered hairstyle transformation for everyone.
-          </p>
-          <div className="border-t border-gray-700 pt-8 text-gray-400">
-            <p>&copy; 2024 HeadZ. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
